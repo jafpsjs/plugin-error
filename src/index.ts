@@ -1,17 +1,49 @@
 import fp from "fastify-plugin";
-import type {} from "fastify";
+import { ErrorSchemaHandler } from "#handler";
+import { onRoute } from "#hook";
+import { HttpError } from "#http";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { FastifyError } from "fastify";
+import type { RouteGlobalErrorSchemasOptions } from "#hook";
 
+export type ErrorPluginOptions = {
+  /**
+   * `false` to disable global error schemas.
+   * @default true
+   */
+  enableGlobalSchemas?: boolean;
 
-export type TemplatePluginOptions = {
-  value: string;
+  /**
+   * `true` to add default {@link FastifyError} formatter.
+   * @default true
+   */
+  formatFastify?: boolean;
+
+  /**
+   * `true` to add default {@link HttpError} formatter.
+   * @default true
+   */
+  formatHttp?: boolean;
+
+  /**
+   * {@link HttpError} that is formatted by default {@link HttpError} formatter.
+   * @default [400, 401, 403, 404, 500]
+   */
+  httpErrorSchemas?: number[];
 };
 
-export const name = "@jafps/plugin-template";
+export const name = "@jafps/plugin-error";
 
-export default fp<TemplatePluginOptions>(
+export default fp<ErrorPluginOptions>(
   async (app, opts) => {
-    const { value } = opts;
-    app.decorate("hello", () => value);
+    app.addHook("onRoute", onRoute);
+    app.decorate("errorSchemas", new ErrorSchemaHandler(opts));
+    app.setErrorHandler(function (error, _req, res) {
+      return this.errorSchemas.format(error, res);
+    });
+    app.setNotFoundHandler(function (_req, res) {
+      return this.errorSchemas.format(HttpError.notFound(), res);
+    });
   },
   {
     decorators: {},
@@ -21,8 +53,24 @@ export default fp<TemplatePluginOptions>(
   }
 );
 
+export type { ErrorFormatter } from "#formatter";
+export type { RouteGlobalErrorSchemasOptions } from "#hook";
+
 declare module "fastify" {
   interface FastifyInstance {
-    readonly hello: () => string;
+    readonly errorSchemas: ErrorSchemaHandler;
+  }
+
+  interface RouteOptions extends ErrorPluginRouteOptions {
+  }
+
+  interface RouteShorthandOptions extends ErrorPluginRouteOptions {
+  }
+
+  interface FastifyContextConfig extends ErrorPluginRouteOptions {
+  }
+
+  interface ErrorPluginRouteOptions {
+    globalErrorSchemas?: RouteGlobalErrorSchemasOptions;
   }
 }

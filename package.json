@@ -1,9 +1,8 @@
 {
-  "name": "@jafps/plugin-template",
+  "name": "@jafps/plugin-error",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fastify plugin for handling global errors formatting and error schemas.",
   "type": "module",
-  "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc",
@@ -14,16 +13,41 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jafpsjs/plugin-template.git"
+    "url": "git+https://github.com/jafpsjs/plugin-error.git"
   },
   "bugs": {
-    "url": "https://github.com/jafpsjs/plugin-template/issues"
+    "url": "https://github.com/jafpsjs/plugin-error/issues"
   },
-  "homepage": "https://github.com/jafpsjs/plugin-template#readme",
-  "imports": {},
+  "homepage": "https://github.com/jafpsjs/plugin-error#readme",
+  "imports": {
+    "#fastify": {
+      "import": "./dist/fastify/index.js"
+    },
+    "#formatter": {
+      "import": "./dist/formatter/index.js"
+    },
+    "#handler": {
+      "import": "./dist/handler/index.js"
+    },
+    "#hook": {
+      "import": "./dist/hook/index.js"
+    },
+    "#http": {
+      "import": "./dist/http/index.js"
+    },
+    "#schema": {
+      "import": "./dist/schema/index.js"
+    },
+    "#util": {
+      "import": "./dist/util/index.js"
+    }
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js"
+    },
+    "./http": {
+      "import": "./dist/http/index.js"
     }
   },
   "keywords": [
@@ -44,6 +68,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "fastify-plugin": "^5.1.0"
+    "fastify-plugin": "^5.1.0",
+    "typebox": "^1.0.43"
   }
 }
