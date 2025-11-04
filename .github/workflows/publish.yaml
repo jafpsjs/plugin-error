@@ -19,7 +19,7 @@ jobs:
     steps:
       - id: check
         if: "${{ env.NODE_AUTH_TOKEN != '' }}"
-        run: echo "::set-output name=exists::true"
+        run: echo "exists=true" >> $GITHUB_OUTPUT
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
