@@ -18,10 +18,11 @@ jobs:
       exists: ${{ steps.check.outputs.exists || false }}
     steps:
       - id: check
-        if: "${{ env.NODE_AUTH_TOKEN != '' }}"
+        if: "${{ env.NODE_AUTH_TOKEN != '' && env.DISABLE_RELEASE != 'true' }}"
         run: echo "exists=true" >> $GITHUB_OUTPUT
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DISABLE_RELEASE: ${{ vars.DISABLE_RELEASE }}
 
   release-please:
     name: release-please
