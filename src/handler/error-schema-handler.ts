@@ -51,14 +51,16 @@ export class ErrorSchemaHandler {
     this.formatters.unshift(formatter);
   }
 
-  public async format(err: Error, res: FastifyReply): Promise<void> {
-    for (const formatter of this.formatters) {
-      const responseJson = await formatter.call(res.server, err);
-      if (!responseJson) {
-        continue;
+  public async format(err: unknown, res: FastifyReply): Promise<void> {
+    if (err instanceof Error) {
+      for (const formatter of this.formatters) {
+        const responseJson = await formatter.call(res.server, err);
+        if (!responseJson) {
+          continue;
+        }
+        const { status, ...data } = responseJson;
+        return res.status(status).send(data);
       }
-      const { status, ...data } = responseJson;
-      return res.status(status).send(data);
     }
     res.log.error({ err }, "Unformatted error");
     return res.status(500).send({
