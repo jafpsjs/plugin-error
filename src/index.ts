@@ -6,6 +6,7 @@ import { HttpError } from "#http";
 import type { FastifyError } from "fastify";
 import type { RouteGlobalErrorSchemasOptions } from "#hook";
 
+/* node:coverage disable */
 export type ErrorPluginOptions = {
   /**
    * `false` to disable global error schemas.
@@ -32,6 +33,8 @@ export type ErrorPluginOptions = {
   httpErrorSchemas?: number[];
 };
 
+/* node:coverage enable */
+
 export const name = "@jafps/plugin-error";
 
 export default fp<ErrorPluginOptions>(
@@ -53,6 +56,7 @@ export default fp<ErrorPluginOptions>(
   }
 );
 
+/* node:coverage disable */
 export type { ErrorFormatter } from "#formatter";
 export type { RouteGlobalErrorSchemasOptions } from "#hook";
 
@@ -74,3 +78,5 @@ declare module "fastify" {
     globalErrorSchemas?: RouteGlobalErrorSchemasOptions;
   }
 }
+
+/* node:coverage enable */
