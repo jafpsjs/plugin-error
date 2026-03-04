@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/jafpsjs/plugin-error/compare/v1.0.1...v1.0.2) (2026-03-04)
+
+
+### Bug Fixes
+
+* Update dependencies ([7dcb14a](https://github.com/jafpsjs/plugin-error/commit/7dcb14ab75500b409e94511d1ed89b21de27d972))
+* Update dependencies ([668b497](https://github.com/jafpsjs/plugin-error/commit/668b497c804fdc0954145faa06af159d1bb24782))
+
 ## [1.0.1](https://github.com/jafpsjs/plugin-error/compare/v1.0.0...v1.0.1) (2025-11-28)
 
 
