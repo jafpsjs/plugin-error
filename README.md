@@ -1,5 +1,7 @@
 # @jafps/plugin-error
 
+[![NPM Version](https://img.shields.io/npm/v/%40jafps%2Fplugin-error)](https://www.npmjs.com/package/@jafps/plugin-error)
+
 Fastify plugin for handling global errors formatting and error schemas.
 
 ## Usage
