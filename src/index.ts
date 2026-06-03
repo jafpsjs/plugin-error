@@ -9,6 +9,12 @@ import type { RouteGlobalErrorSchemasOptions } from "#hook";
 /* node:coverage disable */
 export type ErrorPluginOptions = {
   /**
+   * `true` to disable setting setNotFoundHandler.
+   * @default false
+   */
+  disableNotFoundHandler?: boolean;
+
+  /**
    * `false` to disable global error schemas.
    * @default true
    */
@@ -39,14 +45,17 @@ export const name = "@jafps/plugin-error";
 
 export default fp<ErrorPluginOptions>(
   async (app, opts) => {
+    const { disableNotFoundHandler = false } = opts;
     app.addHook("onRoute", onRoute);
     app.decorate("errorSchemas", new ErrorSchemaHandler(opts));
     app.setErrorHandler(function (error, _req, res) {
       return this.errorSchemas.format(error, res);
     });
-    app.setNotFoundHandler(function (_req, res) {
-      return this.errorSchemas.format(HttpError.notFound(), res);
-    });
+    if (!disableNotFoundHandler) {
+      app.setNotFoundHandler(function (_req, res) {
+        return this.errorSchemas.format(HttpError.notFound(), res);
+      });
+    }
   },
   {
     decorators: {},
