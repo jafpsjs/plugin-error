@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/jafpsjs/plugin-error/compare/v1.0.3...v1.1.0) (2026-06-03)
+
+
+### Features
+
+* Add disableNotFoundHandler to options ([3f56ff7](https://github.com/jafpsjs/plugin-error/commit/3f56ff7ae2b9bdc65a79211dab815d2da4a5349b))
+
 ## [1.0.3](https://github.com/jafpsjs/plugin-error/compare/v1.0.2...v1.0.3) (2026-05-13)
 
 
